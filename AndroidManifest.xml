@@ -17,8 +17,5 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".views.activities.AudioFxDemo"
-              android:label="@string/app_name"/>
-
   </application>
 </manifest>
