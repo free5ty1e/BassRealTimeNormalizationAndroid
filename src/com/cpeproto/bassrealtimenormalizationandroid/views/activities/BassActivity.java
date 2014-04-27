@@ -78,7 +78,11 @@ public class BassActivity extends Activity
   {
     // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
     // with a default priority (0).
-    mEqualizer = new Equalizer(0, mMediaPlayer.getAudioSessionId());
+
+//    int audioSessionId = mMediaPlayer.getAudioSessionId();
+    int audioSessionId = 0;   //An audio session ID of 0 (while deprecated, without replacement) means to apply to global output mix
+
+    mEqualizer = new Equalizer(0, audioSessionId);
     mEqualizer.setEnabled(true);
 
     TextView eqTextView = new TextView(this);
