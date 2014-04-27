@@ -24,14 +24,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="247e09b8-f044-46d2-afc1-447851358d76" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java" afterPath="$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java" />
     </list>
     <ignored path="BassRealTimeNormalizationAndroid.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398585359399" ignored="false" />
     <file path="/fragment.java" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398584706692" ignored="false" />
-    <file path="/BassActivity.java" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398585032444" ignored="false" />
+    <file path="/BassActivity.java" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398585458452" ignored="false" />
     <file path="/AudioFxDemo.java" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398055688331" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398055499018" ignored="false" />
     <file path="/main.xml" changelist="247e09b8-f044-46d2-afc1-447851358d76" time="1398584042903" ignored="false" />
@@ -96,10 +95,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BassActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="BassActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="0" selection-start="2574" selection-end="2574" vertical-scroll-proportion="0.0">
+            <state line="71" column="0" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.72639227">
               <folding />
             </state>
           </provider>
@@ -126,10 +125,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.65375304">
+            <state line="18" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -156,8 +155,8 @@
         <option value="$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/AudioFxDemo.java" />
         <option value="$PROJECT_DIR$/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java" />
       </list>
     </option>
   </component>
@@ -692,16 +691,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="0" selection-start="2574" selection-end="2574" vertical-scroll-proportion="0.0">
+        <state line="18" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/cpeproto/bassrealtimenormalizationandroid/views/activities/BassActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="840" selection-end="840" vertical-scroll-proportion="0.65375304">
+        <state line="71" column="0" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.72639227">
           <folding />
         </state>
       </provider>

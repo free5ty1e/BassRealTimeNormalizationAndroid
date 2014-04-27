@@ -68,6 +68,7 @@ public class BassActivity extends Activity
 
     mLinearLayout = new LinearLayout(this);
     mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+    mLinearLayout.addView(buttonSwitchEqStream);
     mLinearLayout.addView(mStatusTextView);
 
     setContentView(mLinearLayout);
