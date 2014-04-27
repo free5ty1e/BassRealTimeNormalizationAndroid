@@ -2,7 +2,6 @@ package com.cpeproto.bassrealtimenormalizationandroid.views.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,9 +15,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
+
 import com.cpeproto.bassrealtimenormalizationandroid.R;
 
 public class BassActivity extends Activity
@@ -33,6 +31,8 @@ public class BassActivity extends Activity
   private LinearLayout mLinearLayout;
   private VisualizerView mVisualizerView;
   private TextView mStatusTextView;
+  private Button buttonSwitchEqStream;
+  private boolean globalEq = false;
 
   @Override
   public void onCreate(Bundle icicle)
@@ -42,6 +42,29 @@ public class BassActivity extends Activity
     setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
     mStatusTextView = new TextView(this);
+
+    final String button_label_eq_local = getString(R.string.button_label_eq_local);
+    final String button_label_eq_global = getString(R.string.button_label_eq_global);
+    buttonSwitchEqStream = new Button(this);
+    buttonSwitchEqStream.setText(button_label_eq_local);
+    buttonSwitchEqStream.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view)
+      {
+        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
+        if (globalEq)
+        {
+          buttonSwitchEqStream.setText(button_label_eq_local);
+          globalEq = false;
+        }
+        else
+        {
+          buttonSwitchEqStream.setText(button_label_eq_global);
+          globalEq = true;
+        }
+        setupEqualizerFx(globalEq);
+      }
+    });
 
     mLinearLayout = new LinearLayout(this);
     mLinearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -53,12 +76,13 @@ public class BassActivity extends Activity
     mMediaPlayer = MediaPlayer.create(this, R.raw.test_audio);
     Log.d(LOG_TAG, "MediaPlayer audio session ID: " + mMediaPlayer.getAudioSessionId());
 
-//    setupVisualizerFxAndUI();
-    setupEqualizerFxAndUI();
+    //    setupVisualizerFxAndUI();
+    setupEqualizerFx(globalEq);
+    initEqualizerSliders();
 
     // Make sure the visualizer is enabled only when you actually want to receive data, and
     // when it makes sense to receive data.
-//    mVisualizer.setEnabled(true);
+    //    mVisualizer.setEnabled(true);
 
     // When the stream ends, we don't need to collect any more data. We don't do this in
     // setupVisualizerFxAndUI because we likely want to have more, non-Visualizer related code
@@ -66,7 +90,7 @@ public class BassActivity extends Activity
     mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
       public void onCompletion(MediaPlayer mediaPlayer)
       {
-//        mVisualizer.setEnabled(false);
+        //        mVisualizer.setEnabled(false);
       }
     });
 
@@ -74,17 +98,22 @@ public class BassActivity extends Activity
     mStatusTextView.setText("Playing audio...");
   }
 
-  private void setupEqualizerFxAndUI()
+  private void setupEqualizerFx(boolean global)
   {
     // Create the Equalizer object (an AudioEffect subclass) and attach it to our media player,
     // with a default priority (0).
 
-//    int audioSessionId = mMediaPlayer.getAudioSessionId();
-    int audioSessionId = 0;   //An audio session ID of 0 (while deprecated, without replacement) means to apply to global output mix
+    int audioSessionId = 0; //An audio session ID of 0 (while deprecated, without replacement) means to apply to global output mix
+    if (!global)
+    {
+      audioSessionId = mMediaPlayer.getAudioSessionId();
+    }
 
     mEqualizer = new Equalizer(0, audioSessionId);
     mEqualizer.setEnabled(true);
+  }
 
+  private void initEqualizerSliders() {
     TextView eqTextView = new TextView(this);
     eqTextView.setText("Equalizer:");
     mLinearLayout.addView(eqTextView);
@@ -169,7 +198,7 @@ public class BassActivity extends Activity
     mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
     mVisualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
       public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                                        int samplingRate)
+          int samplingRate)
       {
         mVisualizerView.updateVisualizer(bytes);
       }
@@ -187,7 +216,7 @@ public class BassActivity extends Activity
 
     if (isFinishing() && mMediaPlayer != null)
     {
-//      mVisualizer.release();
+      //      mVisualizer.release();
       mEqualizer.release();
       mMediaPlayer.release();
       mMediaPlayer = null;
