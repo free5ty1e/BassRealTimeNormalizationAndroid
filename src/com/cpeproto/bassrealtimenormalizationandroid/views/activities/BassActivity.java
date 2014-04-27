@@ -32,7 +32,10 @@ public class BassActivity extends Activity
   private VisualizerView mVisualizerView;
   private TextView mStatusTextView;
   private Button buttonSwitchEqStream;
+  private Button buttonPlayPause;
+
   private boolean globalEq = false;
+  private boolean playing = false;
 
   @Override
   public void onCreate(Bundle icicle)
@@ -41,8 +44,13 @@ public class BassActivity extends Activity
 
     setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+    mLinearLayout = new LinearLayout(this);
+    mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
     mStatusTextView = new TextView(this);
 
+    //EQ toggle global / local button
     final String button_label_eq_local = getString(R.string.button_label_eq_local);
     final String button_label_eq_global = getString(R.string.button_label_eq_global);
     buttonSwitchEqStream = new Button(this);
@@ -51,7 +59,7 @@ public class BassActivity extends Activity
       @Override
       public void onClick(View view)
       {
-        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
         if (globalEq)
         {
           buttonSwitchEqStream.setText(button_label_eq_local);
@@ -65,10 +73,32 @@ public class BassActivity extends Activity
         setupEqualizerFx(globalEq);
       }
     });
-
-    mLinearLayout = new LinearLayout(this);
-    mLinearLayout.setOrientation(LinearLayout.VERTICAL);
     mLinearLayout.addView(buttonSwitchEqStream);
+
+    //Play / pause button
+    final String button_label_play = getString(R.string.button_label_play);
+    final String button_label_pause = getString(R.string.button_label_pause);
+    buttonPlayPause = new Button(this);
+    buttonPlayPause.setText(button_label_play);
+    buttonPlayPause.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+//        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
+        if (playing) {
+          buttonPlayPause.setText(button_label_play);
+          mMediaPlayer.pause();
+          mStatusTextView.setText(getString(R.string.status_paused));
+          playing = false;
+        } else {
+          buttonPlayPause.setText(button_label_pause);
+          mMediaPlayer.start();
+          mStatusTextView.setText(getString(R.string.status_playing));
+          playing = true;
+        }
+      }
+    });
+    mLinearLayout.addView(buttonPlayPause);
+
     mLinearLayout.addView(mStatusTextView);
 
     setContentView(mLinearLayout);
@@ -94,9 +124,6 @@ public class BassActivity extends Activity
         //        mVisualizer.setEnabled(false);
       }
     });
-
-    mMediaPlayer.start();
-    mStatusTextView.setText("Playing audio...");
   }
 
   private void setupEqualizerFx(boolean global)

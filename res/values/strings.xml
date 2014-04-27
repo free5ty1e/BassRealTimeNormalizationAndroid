@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="app_name">Bass Real Time Normalization Android</string>
-  <string name="button_label_eq_local">Local EQ</string>
-  <string name="button_label_eq_global">Global EQ</string>
+
+  <string name="button_label_eq_local">Now: Local EQ</string>
+  <string name="button_label_eq_global">Now: Global EQ</string>
+  <string name="button_label_play">Play</string>
+  <string name="button_label_pause">Pause</string>
+  <string name="status_playing">Playing audio...</string>
+  <string name="status_paused">Paused...</string>
 </resources>
