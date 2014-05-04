@@ -8,25 +8,30 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.audiofx.Equalizer;
+import android.media.MediaRecorder;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.cpeproto.bassrealtimenormalizationandroid.R;
+import com.cpeproto.bassrealtimenormalizationandroid.controller.EqualizerWrapper;
 
 public class BassActivity extends Activity
 {
   private static final String LOG_TAG = BassActivity.class.getSimpleName();
+  private static final int priority = Integer.MAX_VALUE;
   private static final float VISUALIZER_HEIGHT_DIP = 50f;
 
   private MediaPlayer mMediaPlayer;
   private Visualizer mVisualizer;
-  private Equalizer mEqualizer;
+  private EqualizerWrapper equalizerWrapper;
 
   private LinearLayout mLinearLayout;
   private VisualizerView mVisualizerView;
@@ -47,7 +52,6 @@ public class BassActivity extends Activity
     mLinearLayout = new LinearLayout(this);
     mLinearLayout.setOrientation(LinearLayout.VERTICAL);
 
-
     mStatusTextView = new TextView(this);
 
     //EQ toggle global / local button
@@ -59,7 +63,7 @@ public class BassActivity extends Activity
       @Override
       public void onClick(View view)
       {
-//        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
         if (globalEq)
         {
           buttonSwitchEqStream.setText(button_label_eq_local);
@@ -82,14 +86,18 @@ public class BassActivity extends Activity
     buttonPlayPause.setText(button_label_play);
     buttonPlayPause.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick(View view) {
-//        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
-        if (playing) {
+      public void onClick(View view)
+      {
+        //        Toast.makeText(view.getContext(), ((Button) view).getText() + " Clicked!", Toast.LENGTH_SHORT).show();
+        if (playing)
+        {
           buttonPlayPause.setText(button_label_play);
           mMediaPlayer.pause();
           mStatusTextView.setText(getString(R.string.status_paused));
           playing = false;
-        } else {
+        }
+        else
+        {
           buttonPlayPause.setText(button_label_pause);
           mMediaPlayer.start();
           mStatusTextView.setText(getString(R.string.status_playing));
@@ -137,19 +145,20 @@ public class BassActivity extends Activity
       audioSessionId = mMediaPlayer.getAudioSessionId();
     }
 
-    mEqualizer = new Equalizer(0, audioSessionId);
-    mEqualizer.setEnabled(true);
+    equalizerWrapper = new EqualizerWrapper(priority, audioSessionId); //An audio priority of 10 should get the system's attention, maybe?
+    equalizerWrapper.setEnabled(true);
   }
 
-  private void initEqualizerSliders() {
+  private void initEqualizerSliders()
+  {
     TextView eqTextView = new TextView(this);
     eqTextView.setText("Equalizer:");
     mLinearLayout.addView(eqTextView);
 
-    short bands = mEqualizer.getNumberOfBands();
+    short bands = equalizerWrapper.getNumberOfBands();
 
-    final short minEQLevel = mEqualizer.getBandLevelRange()[0];
-    final short maxEQLevel = mEqualizer.getBandLevelRange()[1];
+    final short minEQLevel = equalizerWrapper.getBandLevelRange()[0];
+    final short maxEQLevel = equalizerWrapper.getBandLevelRange()[1];
 
     for (short i = 0; i < bands; i++)
     {
@@ -160,7 +169,7 @@ public class BassActivity extends Activity
           ViewGroup.LayoutParams.MATCH_PARENT,
           ViewGroup.LayoutParams.WRAP_CONTENT));
       freqTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-      freqTextView.setText((mEqualizer.getCenterFreq(band) / 1000) + " Hz");
+      freqTextView.setText((equalizerWrapper.getCenterFreq(band) / 1000) + " Hz");
       mLinearLayout.addView(freqTextView);
 
       LinearLayout row = new LinearLayout(this);
@@ -185,13 +194,13 @@ public class BassActivity extends Activity
       SeekBar bar = new SeekBar(this);
       bar.setLayoutParams(layoutParams);
       bar.setMax(maxEQLevel - minEQLevel);
-      bar.setProgress(mEqualizer.getBandLevel(band));
+      bar.setProgress(equalizerWrapper.getBandLevel(band));
 
       bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
         public void onProgressChanged(SeekBar seekBar, int progress,
-                                      boolean fromUser)
+            boolean fromUser)
         {
-          mEqualizer.setBandLevel(band, (short) (progress + minEQLevel));
+          equalizerWrapper.setBandLevel(band, (short) (progress + minEQLevel));
         }
 
         public void onStartTrackingTouch(SeekBar seekBar)
@@ -245,7 +254,7 @@ public class BassActivity extends Activity
     if (isFinishing() && mMediaPlayer != null)
     {
       //      mVisualizer.release();
-      mEqualizer.release();
+      equalizerWrapper.release();
       mMediaPlayer.release();
       mMediaPlayer = null;
     }
